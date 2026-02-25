@@ -448,7 +448,7 @@ public class SAML2TokenIssuer implements TokenIssuer {
     }
 
     private KeyInfoConfirmationDataType createKeyInfoConfirmationDataType() {
-        SAMLObjectBuilder<KeyInfoConfirmationDataType> keyInfoSubjectConfirmationDataBuilder = (SAMLObjectBuilder<KeyInfoConfirmationDataType>) XMLObjectProviderRegistrySupport.getBuilderFactory().<KeyInfoConfirmationDataType>getBuilderOrThrow(KeyInfoConfirmationDataType.TYPE_NAME);
+        SAMLObjectBuilder<KeyInfoConfirmationDataType> keyInfoSubjectConfirmationDataBuilder = (SAMLObjectBuilder<KeyInfoConfirmationDataType>) XMLObjectProviderRegistrySupport.getBuilderFactory().<KeyInfoConfirmationDataType>ensureBuilder(KeyInfoConfirmationDataType.TYPE_NAME);
 
         //Build the subject confirmation data element
         return keyInfoSubjectConfirmationDataBuilder.
@@ -699,9 +699,9 @@ public class SAML2TokenIssuer implements TokenIssuer {
         
         //if username/password based authn
         if (inMsgCtx.getProperty(RahasConstants.USERNAME) != null) {
-            authCtxClassRef.setAuthnContextClassRef(AuthnContext.PASSWORD_AUTHN_CTX);
+            authCtxClassRef.setURI(AuthnContext.PASSWORD_AUTHN_CTX);
         } else if (inMsgCtx.getProperty(RahasConstants.X509_CERT) != null) { //if X.509 cert based authn
-            authCtxClassRef.setAuthnContextClassRef(AuthnContext.X509_AUTHN_CTX);
+            authCtxClassRef.setURI(AuthnContext.X509_AUTHN_CTX);
         }
 
         authContext.setAuthnContextClassRef(authCtxClassRef);
